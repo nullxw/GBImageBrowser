@@ -7,7 +7,7 @@
 //
 
 #import "ImageBrowserView.h"
-#import "ScaleContant.h"
+#import "ZoomContant.h"
 #import "ZoomImageView.h"
 
 @implementation ImageBrowserView
