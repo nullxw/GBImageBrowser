@@ -20,6 +20,7 @@
 		313C66AD17AD6C5200D21AA0 /* IBViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 313C66AB17AD6C5200D21AA0 /* IBViewController.xib */; };
 		313C66B917AD748A00D21AA0 /* ZoomImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 313C66B817AD748A00D21AA0 /* ZoomImageView.m */; };
 		313C66BD17AD779100D21AA0 /* tset@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 313C66BC17AD779100D21AA0 /* tset@2x.png */; };
+		313C66C117AD84EA00D21AA0 /* ImageBrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 313C66C017AD84EA00D21AA0 /* ImageBrowserView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,9 @@
 		313C66B717AD748A00D21AA0 /* ZoomImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomImageView.h; sourceTree = "<group>"; };
 		313C66B817AD748A00D21AA0 /* ZoomImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoomImageView.m; sourceTree = "<group>"; };
 		313C66BC17AD779100D21AA0 /* tset@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tset@2x.png"; sourceTree = "<group>"; };
+		313C66BE17AD83AE00D21AA0 /* ScaleContant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScaleContant.h; sourceTree = "<group>"; };
+		313C66BF17AD84EA00D21AA0 /* ImageBrowserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageBrowserView.h; sourceTree = "<group>"; };
+		313C66C017AD84EA00D21AA0 /* ImageBrowserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageBrowserView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +123,9 @@
 			children = (
 				313C66B717AD748A00D21AA0 /* ZoomImageView.h */,
 				313C66B817AD748A00D21AA0 /* ZoomImageView.m */,
+				313C66BE17AD83AE00D21AA0 /* ScaleContant.h */,
+				313C66BF17AD84EA00D21AA0 /* ImageBrowserView.h */,
+				313C66C017AD84EA00D21AA0 /* ImageBrowserView.m */,
 			);
 			path = ImageBrowserClass;
 			sourceTree = "<group>";
@@ -195,6 +202,7 @@
 				313C66A117AD6C5200D21AA0 /* IBAppDelegate.m in Sources */,
 				313C66AA17AD6C5200D21AA0 /* IBViewController.m in Sources */,
 				313C66B917AD748A00D21AA0 /* ZoomImageView.m in Sources */,
+				313C66C117AD84EA00D21AA0 /* ImageBrowserView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

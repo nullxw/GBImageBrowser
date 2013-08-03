@@ -53,7 +53,6 @@
     }
     
     if (gesture.state == UIGestureRecognizerStateChanged) {
-        NSLog(@"changed: %f",gesture.scale);
         if (self.lastScale < gesture.scale) {//zooming +
             curZoom += .25;
         }else if(self.lastScale > gesture.scale){
