@@ -23,21 +23,18 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor redColor];
-        UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGestureRecognizerChanged:)];
-        
-        self.scaleImageView = [[UIImageView alloc] initWithImage:image];
-        self.scaleImageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
+        self.scaleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame))];
+        self.scaleImageView.image = image;
         self.scaleImageView.contentMode = UIViewContentModeScaleAspectFit;
         self.scaleImageView.userInteractionEnabled = YES;
-        self.scaleImageView.center = CGPointMake(CGRectGetWidth(frame)/2, CGRectGetHeight(frame)/2);
         [self addSubview:self.scaleImageView];
         
+        UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGestureRecognizerChanged:)];
         [self.scaleImageView addGestureRecognizer:pinch];
         
         self.currentScale = 1.0;
-        self.minScale = 1.0;
-        self.maxScale = 1.0;
+        self.minScale = .5;
+        self.maxScale = 5.;
         
         self.clipsToBounds = YES;
         

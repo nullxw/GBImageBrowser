@@ -7,7 +7,7 @@
 //
 
 #import "IBViewController.h"
-#import "ZoomImageView.h"
+#import "ImageBrowserView.h"
 
 @interface IBViewController ()
 
@@ -19,12 +19,9 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    
-    ZoomImageView *test = [[ZoomImageView alloc] initWithFrame:CGRectMake(50, 50, 200, 200)
-                                                           image:[UIImage imageNamed:@"tset"]];
-    test.minScale = .5;
-    test.maxScale = 5.;
-    [self.view addSubview:test];
+
+    ImageBrowserView *browser = [[ImageBrowserView alloc] initWithFrame:self.view.frame imageNames:[NSArray arrayWithObject:@"tset"]];
+    [self.view addSubview:browser];
 }
 
 

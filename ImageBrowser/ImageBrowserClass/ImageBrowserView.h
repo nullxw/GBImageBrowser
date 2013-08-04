@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ImageBrowserView : UIView
+@interface ImageBrowserView : UIScrollView
 
-- (id)initWithFrame:(CGRect)frame imageNamed:(NSArray *)names;
+
+- (id)initWithFrame:(CGRect)frame imageNames:(NSArray *)names;
 
 @end
