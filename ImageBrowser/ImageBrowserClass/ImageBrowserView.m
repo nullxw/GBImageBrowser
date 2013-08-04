@@ -43,6 +43,30 @@
     return self;
 }
 
+- (id)initWithFrame:(CGRect)frame imageURLs:(NSArray *)URLs
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        // Initialization code
+        self.contentSize = CGSizeMake(CGRectGetWidth(frame)*[URLs count], CGRectGetHeight(frame));
+        self.pagingEnabled = YES;
+        
+        _imageNames = URLs;
+        _imageCountPerPage = 1;
+        
+        [_imageNames enumerateObjectsUsingBlock:^(NSString *url, NSUInteger idx, BOOL *stop) {
+            ZoomImageView *temp= [[ZoomImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(frame)*idx, 0, CGRectGetWidth(frame), CGRectGetHeight(frame))
+                                                                url:url];
+            temp.minScale = .5;
+            temp.maxScale = 5.;
+            temp.tag = TAGBASE + idx;
+            [self addSubview:temp];
+        }];
+    }
+    return self;
+}
+
+
 - (void)setImageCountPerPage:(NSInteger)imageCountPerPage
 {
     if (_imageCountPerPage == imageCountPerPage) return;
@@ -60,7 +84,6 @@
     [_imageNames enumerateObjectsUsingBlock:^(NSString *name, NSUInteger idx, BOOL *stop) {
         UIView *view = [self viewWithTag:TAGBASE + idx];
         [view setFrame:CGRectMake(CGRectGetWidth(self.frame)/_imageCountPerPage*idx, 0, CGRectGetWidth(self.frame)/_imageCountPerPage, CGRectGetHeight(self.frame))];
-        NSLog(@"view %@",view);
     }];
 }
 

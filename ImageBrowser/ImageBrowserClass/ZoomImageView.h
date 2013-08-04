@@ -15,4 +15,6 @@
 
 - (id)initWithFrame:(CGRect)frame image:(UIImage *)image;
 
+- (id)initWithFrame:(CGRect)frame url:(NSString *)url;
+
 @end

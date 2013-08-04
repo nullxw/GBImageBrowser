@@ -13,6 +13,10 @@
 //image count per page, 1 is default
 @property (nonatomic) NSInteger imageCountPerPage;
 
+//load local image
 - (id)initWithFrame:(CGRect)frame imageNames:(NSArray *)names;
+
+//load web image
+- (id)initWithFrame:(CGRect)frame imageURLs:(NSArray *)URLs;
 
 @end
