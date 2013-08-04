@@ -10,6 +10,8 @@
 
 @interface ImageBrowserView : UIScrollView
 
+//image count per page, 1 is default
+@property (nonatomic) NSInteger imageCountPerPage;
 
 - (id)initWithFrame:(CGRect)frame imageNames:(NSArray *)names;
 

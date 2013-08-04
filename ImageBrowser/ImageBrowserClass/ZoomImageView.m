@@ -42,6 +42,11 @@
     return self;
 }
 
+- (void)layoutSubviews
+{
+    self.scaleImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
+}
+
 - (void)pinchGestureRecognizerChanged:(UIPinchGestureRecognizer *)gesture
 {
     CGFloat curZoom = self.currentScale;

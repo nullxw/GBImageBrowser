@@ -20,10 +20,12 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 
-    ImageBrowserView *browser = [[ImageBrowserView alloc] initWithFrame:self.view.frame imageNames:[NSArray arrayWithObject:@"tset"]];
+    ImageBrowserView *browser = [[ImageBrowserView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame),  CGRectGetHeight(self.view.frame))
+                                                             imageNames:[NSArray arrayWithObjects:@"tset",@"tset",@"tset",@"tset",nil]];
+    browser.imageCountPerPage = 3;
+    browser.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:browser];
 }
-
 
 - (void)didReceiveMemoryWarning
 {
