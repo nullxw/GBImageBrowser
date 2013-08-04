@@ -81,6 +81,8 @@
     int add = [_imageNames count]%_imageCountPerPage > 0 ? 1 : 0;
     self.contentSize = CGSizeMake(([_imageNames count]/_imageCountPerPage + add) * CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
     
+    //self.contentOffset = CGPointMake(((int)(self.contentOffset.x/CGRectGetWidth(self.frame))) *CGRectGetWidth(self.frame), 0);
+    
     [_imageNames enumerateObjectsUsingBlock:^(NSString *name, NSUInteger idx, BOOL *stop) {
         UIView *view = [self viewWithTag:TAGBASE + idx];
         [view setFrame:CGRectMake(CGRectGetWidth(self.frame)/_imageCountPerPage*idx, 0, CGRectGetWidth(self.frame)/_imageCountPerPage, CGRectGetHeight(self.frame))];

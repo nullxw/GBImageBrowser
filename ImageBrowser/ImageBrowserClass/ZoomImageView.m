@@ -39,7 +39,6 @@
         self.maxScale = 5.;
         
         self.clipsToBounds = YES;
-        
     }
     return self;
 }
