@@ -8,13 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZoomImageView : UIView
+@interface ZoomImageView : UIView<UIScrollViewDelegate>
 
-@property (nonatomic) CGFloat maxScale;
-@property (nonatomic) CGFloat minScale;
-
-- (id)initWithFrame:(CGRect)frame image:(UIImage *)image;
-
-- (id)initWithFrame:(CGRect)frame url:(NSString *)url;
+- (id)initWithFrame:(CGRect)frame
+              image:(NSURL *)image
+        touchHandle:(void(^)(ZoomImageView *))touched;
 
 @end

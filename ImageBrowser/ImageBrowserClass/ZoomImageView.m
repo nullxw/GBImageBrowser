@@ -12,109 +12,82 @@
 @interface ZoomImageView ()
 
 @property (nonatomic, strong) UIImageView *scaleImageView;
-@property (nonatomic, strong) UIActivityIndicatorView *indicator;
-@property (nonatomic)         CGFloat     currentScale;
-@property (nonatomic)         CGFloat     lastScale;
-
+@property (nonatomic, copy)   void(^touchedHandle)(ZoomImageView *);
 @end
 
 @implementation ZoomImageView
 
-- (id)initWithFrame:(CGRect)frame image:(UIImage *)image
+- (id)initWithFrame:(CGRect)frame
+              image:(NSURL *)image
+        touchHandle:(void(^)(ZoomImageView *))touched
 {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.scaleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame))];
-        self.scaleImageView.image = image;
+        self.touchedHandle = touched;
+        
+        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectChangeOrigin(frame, 0, 0)];
+        scrollView.delegate = self;
+        scrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        scrollView.backgroundColor = [UIColor blackColor];
+        scrollView.minimumZoomScale = 1;
+        scrollView.maximumZoomScale = 3;
+        [self addSubview:scrollView];
+        
+        self.scaleImageView = [[UIImageView alloc] initWithFrame:CGRectChangeOrigin(frame, 0, 0)];
         self.scaleImageView.contentMode = UIViewContentModeScaleAspectFit;
         self.scaleImageView.userInteractionEnabled = YES;
-        [self addSubview:self.scaleImageView];
+        self.scaleImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        [self.scaleImageView setImageWithURL:image
+                            placeholderImage:[UIImage imageNamed:@"default_question_pic.png"]];
+        [scrollView addSubview:self.scaleImageView];
         
-        UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGestureRecognizerChanged:)];
-        [self.scaleImageView addGestureRecognizer:pinch];
+        [self centerScrollViewContents:scrollView];
         
-        self.currentScale = 1.0;
-        self.minScale = .5;
-        self.maxScale = 5.;
-        
-        self.clipsToBounds = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+        [scrollView addGestureRecognizer:tap];
     }
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame url:(NSString *)url
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-        self.scaleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame))];
-        self.scaleImageView.contentMode = UIViewContentModeScaleAspectFit;
-        self.scaleImageView.userInteractionEnabled = YES;
-        [self addSubview:self.scaleImageView];
-        
-        //add waiting progress
-        self.indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        self.indicator.frame = CGRectMake(0, 0, 30, 30);
-        self.indicator.center = self.scaleImageView.center;
-        self.indicator.hidesWhenStopped = YES;
-        [self.scaleImageView addSubview:self.indicator];
-        [self.indicator startAnimating];
-        
-        //load web image
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-        [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
-        __weak typeof(self) wself = self;
-        [self.scaleImageView setImageWithURLRequest:request
-                                   placeholderImage:nil
-                                            success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                                wself.scaleImageView.image = image;
-                                                [wself.indicator stopAnimating];
-        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            [wself.indicator stopAnimating];
-        }];
-
-        //add gesture
-        UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGestureRecognizerChanged:)];
-        [self.scaleImageView addGestureRecognizer:pinch];
-        
-        self.currentScale = 1.0;
-        self.minScale = .5;
-        self.maxScale = 5.;
-        
-        self.clipsToBounds = YES;
-        
-    }
-    return self;
+    return self.scaleImageView;
 }
 
-- (void)layoutSubviews
+- (void)centerScrollViewContents:(UIScrollView *)scrollView
 {
-    self.scaleImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
-    self.indicator.center = self.scaleImageView.center;
+    CGSize boundsSize = scrollView.bounds.size;
+    CGRect contentsFrame = self.scaleImageView.frame;
+    
+    if (contentsFrame.size.width < boundsSize.width) {
+        contentsFrame.origin.x = (boundsSize.width - contentsFrame.size.width) / 2.0f;
+    } else {
+        contentsFrame.origin.x = 0.0f;
+    }
+    
+    if (contentsFrame.size.height < boundsSize.height) {
+        contentsFrame.origin.y = (boundsSize.height - contentsFrame.size.height) / 2.0f;
+    } else {
+        contentsFrame.origin.y = 0.0f;
+    }
+    
+    self.scaleImageView.frame = contentsFrame;
 }
 
-- (void)pinchGestureRecognizerChanged:(UIPinchGestureRecognizer *)gesture
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    [self centerScrollViewContents:scrollView];
+}
+
+- (void)tapAction:(UITapGestureRecognizer *)tap
 {
-    CGFloat curZoom = self.currentScale;
-    if (gesture.state == UIGestureRecognizerStateBegan) {
-        self.lastScale = gesture.scale;
-    }
-    
-    if (gesture.state == UIGestureRecognizerStateChanged) {
-        if (self.lastScale < gesture.scale) {//zooming +
-            curZoom += .25;
-        }else if(self.lastScale > gesture.scale){
-            curZoom -= .25;
-        }
-        
-        if (curZoom > self.maxScale || curZoom < self.minScale) return;
-        
-        
-        self.currentScale = curZoom;
-        self.lastScale = gesture.scale;
-    }
-    
-    self.scaleImageView.bounds = CGRectMake(0, 0, self.scaleImageView.image.size.width * self.currentScale, self.scaleImageView.image.size.width * self.currentScale);
+    self.scaleImageView.superview.backgroundColor = [UIColor clearColor];
+    self.touchedHandle(self);
+}
+
+- (void)dealloc
+{
+    NSLog(@"release 11");
 }
 @end
