@@ -2,17 +2,17 @@
 //  main.m
 //  ImageBrowser
 //
-//  Created by yixiaoluo on 13-8-4.
-//  Copyright (c) 2013年 yixiaoluo. All rights reserved.
+//  Created by yixiaoluo on 14-1-25.
+//  Copyright (c) 2014年 yixiaoluo. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-#import "IBAppDelegate.h"
+#import "AppDelegate.h"
 
-int main(int argc, char *argv[])
+int main(int argc, char * argv[])
 {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([IBAppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
     }
 }
