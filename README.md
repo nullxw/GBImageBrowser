@@ -1,7 +1,7 @@
-ImageBrowser
+GBImageBrowser
 ============
 
-ImageBrowser是一个图片浏览demo，具有iPhone自带图片工具的浏览和缩放功能。
+GBImageBrowser是一个图片浏览demo，具有iPhone自带图片工具的浏览和缩放功能。
 
 支持样式： 
 1）纵向、水平方向翻页效果；
